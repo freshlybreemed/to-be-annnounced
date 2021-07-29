@@ -2,6 +2,11 @@ import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { TicketProps, EventCartProps } from '../@types/types';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+
+export const instance = axios.create({
+  headers: { Authorization: 'Bearer ' + process.env.API_KEY },
+});
 
 export const stripeClient = process.env.STRIPE_DEV_CLIENT;
 var yesterday = moment().subtract(1, 'day');
