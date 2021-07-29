@@ -47,8 +47,37 @@ export const emailTemplates = {
       "
     ></div>
     <div style="display: none; max-height: 0px; overflow: hidden;">
-      Your Tickets to D'usse Palooza
+      Your Tickets to ${event.name}
     </div>
+     <script type="application/ld+json">
+    {
+      "@context":              "http://schema.org",
+      "@type":                 "EventReservation",
+      "reservationNumber":     "uihio8",
+      "reservationStatus":     "uihio8",
+      "underName": {
+        "@type":               "Person",
+        "name":                "John Smith"
+      },
+      "reservationFor": {
+        "@type":               "Event",
+        "name":                "Google I/O 2013",
+        "startDate":           "2022-05-15T08:30:00-08:00",
+        "location": {
+          "@type":             "Place",
+          "name":              "Moscone Center",
+          "address": {
+            "@type":           "PostalAddress",
+            "streetAddress":   "800 Howard St.",
+            "addressLocality": "San Francisco",
+            "addressRegion":   "CA",
+            "postalCode":      "94103",
+            "addressCountry":  "US"
+          }
+        }
+      }
+    }
+    </script>
     <div style="display: none; max-height: 0px; overflow: hidden;">
       &nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
