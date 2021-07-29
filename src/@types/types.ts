@@ -98,3 +98,11 @@ export interface EventCartProps {
   _id: string;
   ticketName: string;
 }
+
+export interface UserProps {
+  _id: string;
+  updatedAt: Date;
+  firebase: any;
+  payouts: any;
+  settings: any;
+}
