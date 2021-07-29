@@ -78,6 +78,23 @@ export const ManageEvent: React.FunctionComponent<ManageProps> = ({
             >
               • {inProgress ? `In Progress` : live ? `Live` : `Sale Ended`}
             </h2>
+               <label className="switch">
+                <input
+                  type="checkbox"
+                  // onChange={() =>
+                  //   updateTicket({
+                  //     ...ticketTypes[curr],
+                  //     enabled: !ticketTypes[curr].enabled,
+                  //   })
+                  // }
+                  checked={event.shouldHide}
+                />
+                <span>
+                  {/* <em></em> */}
+                  <strong></strong>
+                </span>
+              </label>
+                       
           </div>
           <div className="w-auto-m dtc" />
           <div className="dtc-l dtc-m v-mid tr f4-l f5 fw5">
