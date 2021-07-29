@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {FunctionComponent, useState, useEffect} from 'react';
 import { Nav, Footer } from '.';
 import Head from 'next/head';
 import classnames from 'classnames';
@@ -17,18 +17,43 @@ interface LayoutProps {
     description: string;
   };
 }
-export const Layout: React.FunctionComponent<LayoutProps> = ({
+export const Layout: FunctionComponent<LayoutProps> = ({
   noPadding,
   children,
   data,
-}) => (
+}) => {
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
+  const [slidingMenuOpen, setSlidingMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (window) {
+      window.addEventListener("scroll", handleScroll);
+    }
+  });
+
+  useEffect(() => {
+    if (document && slidingMenuOpen) {
+      const header = document.getElementById("header");
+      console.log(header);
+      setHeaderHeight(header?.clientHeight || 0);
+    }
+  });
+  const handleScroll = () => {
+    setHeaderHeight(window?.pageYOffset);
+  };
+
+
+  return (
+  <div>
+    <Nav headerHeight={headerHeight} setVisible={setSlidingMenuOpen} visible={slidingMenuOpen} />
+
   <div
     className={`bg-black white ${classnames({
       'pa4-ns pa3': !noPadding,
     })} relative`}
   >
     {/*language=PostCSS*/}
-    <Head>
+    <Head> 
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -70,9 +95,8 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
         'pa4-ns pa3': noPadding,
       })}`}
     >
-      <Nav />
     </div>
-    <main className="relative">{children}</main>
+    <main className="z-0 relative">{children}</main>
     <div
       className={`${classnames({
         'pa4-ns pa3': noPadding,
@@ -80,5 +104,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
     >
       <Footer />
     </div>
+    </div>
   </div>
-);
+  );
+}
