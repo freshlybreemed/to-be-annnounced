@@ -113,7 +113,7 @@ export const ticketTemplate = {
             <div className="v-mid fr">
               <QRCode
                 className="v-mid fr"
-                value={`http://www.socialticketing.com/ticket/${curr.barCode}`}
+                value={`${curr.barCode}`}
                 renderAs="svg"
                 size={80}
               />
