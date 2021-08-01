@@ -48,7 +48,7 @@ const updateOrder = async (order: OrderProps, event: EventProps, db: any) => {
     .collection('event')
     .updateOne({ _id: event._id }, { $set: newEvent });
   return await db
-    .collection('ticket')
+    .collection('order')
     .updateOne({ _id: order._id }, { $set: order });
 };
 export default wrapAsync(async (req: NextApiRequest, db: any) => {

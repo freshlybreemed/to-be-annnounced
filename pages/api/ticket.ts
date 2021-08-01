@@ -13,7 +13,7 @@ const updateTixCount = async (
   });
 
   order.orderDate = new Date(order.orderDate);
-  await db.collection('ticket').insertOne(order);
+  await db.collection('order').insertOne(order);
 
   return await db.collection('event').updateOne(
     { slug: event.slug },
