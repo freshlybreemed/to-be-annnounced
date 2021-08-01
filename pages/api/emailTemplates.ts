@@ -49,35 +49,29 @@ export const emailTemplates = {
     <div style="display: none; max-height: 0px; overflow: hidden;">
       Your Tickets to ${event.name}
     </div>
-     <script type="application/ld+json">
-    {
-      "@context":              "http://schema.org",
-      "@type":                 "EventReservation",
-      "reservationNumber":     "uihio8",
-      "reservationStatus":     "uihio8",
-      "underName": {
-        "@type":               "Person",
-        "name":                "John Smith"
-      },
-      "reservationFor": {
-        "@type":               "Event",
-        "name":                "Google I/O 2013",
-        "startDate":           "2022-05-15T08:30:00-08:00",
-        "location": {
-          "@type":             "Place",
-          "name":              "Moscone Center",
-          "address": {
-            "@type":           "PostalAddress",
-            "streetAddress":   "800 Howard St.",
-            "addressLocality": "San Francisco",
-            "addressRegion":   "CA",
-            "postalCode":      "94103",
-            "addressCountry":  "US"
-          }
-        }
-      }
-    }
-    </script>
+    <div itemscope itemtype="http://schema.org/EventReservation">
+      <meta itemprop="reservationNumber" content="${order._id}"/>
+      <link itemprop="reservationStatus" href="http://schema.org/Confirmed"/>
+      <div itemprop="underName" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="${event.name}"/>
+      </div>
+      <div itemprop="reservationFor" itemscope itemtype="http://schema.org/Event">
+        <meta itemprop="name" content="${event.name}"/>
+        <meta itemprop="startDate" content="${event.startDate}"/>
+        <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+          <meta itemprop="name" content="${event.location.venue}"/>
+          <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+            <meta itemprop="streetAddress" content="${event.location.address}"/>
+            <meta itemprop="addressLocality" content="${event.location.city}"/>
+            <meta itemprop="addressRegion" content="${event.location.state}"/>
+            <meta itemprop="postalCode" content="${event.location.zip}"/>
+            <meta itemprop="addressCountry" content="US"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <div style="display: none; max-height: 0px; overflow: hidden;">
       &nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
