@@ -22,7 +22,6 @@ export interface EventProps {
   password: string;
   refunds: boolean;
   pageViews: number;
-  shouldHide: boolean;
   gross: number;
   listed: boolean;
   eventType: string;
@@ -34,6 +33,7 @@ export interface EventProps {
   };
   updatedAt: string;
   publishDate: string;
+  public: boolean;
 }
 
 export interface TicketProps {

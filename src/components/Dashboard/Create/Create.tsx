@@ -154,7 +154,7 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
     pageViews: event? event.pageViews: 0,
     organizerId,
     image,
-    shouldHide: event? event.shouldHide : false,
+    public: event? event.public : true,
     lineUp,
     tickets: event ? event.tickets : [],
     startDate,

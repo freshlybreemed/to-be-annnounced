@@ -87,7 +87,7 @@ export const ManageEvent: React.FunctionComponent<ManageProps> = ({
                   //     enabled: !ticketTypes[curr].enabled,
                   //   })
                   // }
-                  checked={event.shouldHide}
+                  checked={event.public}
                 />
                 <span>
                   {/* <em></em> */}
