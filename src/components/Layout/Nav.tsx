@@ -1,15 +1,20 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Link from 'next/link'
 import { getCookieFromBrowser, removeCookie } from '../../lib';
 import Router from 'next/router';
-export const Nav: React.FunctionComponent = () => {
+import classnames from 'classnames';
+
+interface NavProps {
+  headerHeight: number;
+  visible: boolean;
+  setVisible: (state: boolean) => void;
+}
+export const Nav: React.FunctionComponent<NavProps> = ({ headerHeight, visible, setVisible  }) => {
   const isLoggedIn = getCookieFromBrowser('id_token') ? true : false;
   const handleLogout = () => {
     removeCookie('id_token');
     Router.push('/');
   };
-  const [visible, setVisible] = useState<boolean>(false);
   const handleMouseDown = (e) => {
     toggleMenu();
 
@@ -26,14 +31,27 @@ export const Nav: React.FunctionComponent = () => {
     visibility = 'show';
   }
   return (
-    <div className="overflow-hidden dt flex justify-between relative mb4-l mb3-m mb2 flex">
+    <header className="w-full sticky top-0 z-50 ">
+      <div
+        id="header"
+        style={{
+          transition: "background-color 0.2s ease",
+        }}
+        className={` w-full border-black flex absolute items-center pa3-ns pa2 ${classnames(
+          {
+            "bg-black": headerHeight !== 0 || visible,
+          }
+        )} justify-between py-3 font-medium gt`}
+      >
+
+   
       <a href="/" className="fl f3 fw6 white no-underline">
         Social Ticketing
       </a>
       <div id="flyoutMenu" className={`${visibility}`} style={{ zIndex: 2 }}>
         <div className="overflow-hidden dt flex fr justify-between relative flex">
           <div
-            className="ma4-ns ma3 fw8 f4 dim white"
+            className="ma3-ns ma2 fw8 f4 dim white"
             onMouseDown={handleMouseDown}
           >
             <svg
@@ -189,6 +207,7 @@ export const Nav: React.FunctionComponent = () => {
           </svg>
         </li>
       </ul>
-    </div>
+      </div>
+    </header>
   );
 };

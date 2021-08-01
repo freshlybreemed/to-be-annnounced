@@ -16,7 +16,8 @@ import {
   validEndDate,
   validStartDate,
   timeConstraints,
-  getCookie
+  getCookie,
+  instance
 } from '../../../lib';
 import moment from 'moment-timezone';
 import customId from 'custom-id';
@@ -153,7 +154,7 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
     pageViews: event? event.pageViews: 0,
     organizerId,
     image,
-    shouldHide: event? event.shouldHide : false,
+    public: event? event.public : true,
     lineUp,
     tickets: event ? event.tickets : [],
     startDate,
@@ -240,6 +241,24 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
               endDate: false,
             });
           }  
+          break;
+        case 'slug':
+          const slug = item[key]
+          instance.get(`/api/event/${slug}`).then((res)=>{
+            if(res.data.length > 0 && event.slug !== slug){
+              setEventErrors({
+                ...eventErrors,
+                slug: true,
+              });
+            } else  {
+               setEventErrors({
+                ...eventErrors,
+                slug: false,
+              });
+            }
+          }).catch(err=>{
+            console.log('error',err)
+          })
           break;
       }
       console.log('erors',eventErrors)
@@ -387,14 +406,23 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
                 <small className="db tl red">Invalid end date/time</small>
               )}
             </div>
-            <div className="mv3 tl ba-hover  ">
-              <small className=" mid-gray db pl2 pt2 pb1"> Event URL</small>
+            <div className={`mt3 mb2 tl ${classNames({
+                'ba-hover': !eventErrors.slug,
+                'ba-hover-error': eventErrors.slug,
+              })}`}>
+              <small className=" mid-gray db pl2 pt2 pb1">Event URL (ex: whatstba.com/e/eventName)</small>
               <input
                 className="pl2 pb2 input-reset bn  w-90"
                 value={slug}
-                onChange={(e) => setSlug(e.currentTarget.value)}
+                onChange={(e) => {
+                  setSlug(e.currentTarget.value);
+                  checkForErrors({slug:e.currentTarget.value});
+                }}
               />
             </div>
+              {eventErrors.slug && (
+                <small className="db tl red">This slug is unavailable. Please try another</small>
+              )}
             <hr className="o-20 " />
           </div>
           <div className="mv4 pv2">

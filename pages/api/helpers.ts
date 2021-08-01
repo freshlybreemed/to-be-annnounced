@@ -51,9 +51,7 @@ export const sendEmail = async (
     await createDigitalTicket(order, event).then(async (tix: any) => {
       // create reusable transporter object using the default SMTP transport
       let transporter = await nodemailer.createTransport({
-        host: 'smtp-pulse.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        service: 'SendPulse', 
         auth: {
           user: 'chickenandmumbosauce@gmail.com', // generated ethereal user
           pass: process.env.SENDPULSE, // generad ethereal password

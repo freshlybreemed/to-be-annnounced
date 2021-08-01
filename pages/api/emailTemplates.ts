@@ -47,8 +47,31 @@ export const emailTemplates = {
       "
     ></div>
     <div style="display: none; max-height: 0px; overflow: hidden;">
-      Your Tickets to D'usse Palooza
+      Your Tickets to ${event.name}
     </div>
+    <div itemscope itemtype="http://schema.org/EventReservation">
+      <meta itemprop="reservationNumber" content="${order._id}"/>
+      <link itemprop="reservationStatus" href="http://schema.org/Confirmed"/>
+      <div itemprop="underName" itemscope itemtype="http://schema.org/Person">
+        <meta itemprop="name" content="${event.name}"/>
+      </div>
+      <div itemprop="reservationFor" itemscope itemtype="http://schema.org/Event">
+        <meta itemprop="name" content="${event.name}"/>
+        <meta itemprop="startDate" content="${event.startDate}"/>
+        <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+          <meta itemprop="name" content="${event.location.venue}"/>
+          <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+            <meta itemprop="streetAddress" content="${event.location.address}"/>
+            <meta itemprop="addressLocality" content="${event.location.city}"/>
+            <meta itemprop="addressRegion" content="${event.location.state}"/>
+            <meta itemprop="postalCode" content="${event.location.zip}"/>
+            <meta itemprop="addressCountry" content="US"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <div style="display: none; max-height: 0px; overflow: hidden;">
       &nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;‌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </div>

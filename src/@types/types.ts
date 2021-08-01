@@ -22,7 +22,6 @@ export interface EventProps {
   password: string;
   refunds: boolean;
   pageViews: number;
-  shouldHide: boolean;
   gross: number;
   listed: boolean;
   eventType: string;
@@ -34,6 +33,7 @@ export interface EventProps {
   };
   updatedAt: string;
   publishDate: string;
+  public: boolean;
 }
 
 export interface TicketProps {
@@ -97,4 +97,12 @@ export interface EventCartProps {
   fee: number;
   _id: string;
   ticketName: string;
+}
+
+export interface UserProps {
+  _id: string;
+  updatedAt: Date;
+  firebase: any;
+  payouts: any;
+  settings: any;
 }
