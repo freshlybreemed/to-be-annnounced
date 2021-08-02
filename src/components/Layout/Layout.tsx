@@ -96,7 +96,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({
       })}`}
     >
     </div>
-    <main className="z-0 relative">{children}</main>
+    <main className="z-0 relative mt5">{children}</main>
     <div
       className={`${classnames({
         'pa4-ns pa3': noPadding,
