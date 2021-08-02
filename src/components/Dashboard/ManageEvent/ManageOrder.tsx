@@ -1,9 +1,10 @@
 import * as React from 'react';
 import QRCode from 'qrcode.react';
-import { formatPrice, getOrderTicketCount, formatDate } from '../../../lib';
+import { formatPrice, getOrderTicketCount, formatDate, formatEventTime } from '../../../lib';
 import { EventProps, OrderProps } from '../../../@types/types';
 import Modal from 'react-modal';
 import axios from 'axios';
+import classnames from 'classnames';
 
 const customStyles = {
   overlay: {
@@ -182,7 +183,7 @@ export const ManageOrder: React.FunctionComponent<AttendeesProps> = ({
                   className="mv2 pv3"
                   style={{
                     background:
-                      'linear-gradient(to bottom, #e84c3d 0%, #e84c3d 26%, #ecedef 26%, #ecedef 100%)',
+                    `linear-gradient(to bottom, ${classnames({'#e84c3d 0%, #e84c3d 26%': curr.checkedIn,'#129238 0%, #177a1c 26%': !curr.checkedIn,  })}, #ecedef 26%, #ecedef 100%)`,
                   }}
                 >
                   Social <span className="normal">Ticketing</span>
@@ -201,7 +202,12 @@ export const ManageOrder: React.FunctionComponent<AttendeesProps> = ({
                     <span className="normal f7 gray">Ticket</span>
                   </div>
                   <div className="ttu fl mt2 ml2">
-                    <h4 className="mv0">3PM</h4>
+                    <h4 className="mv0">{`${formatEventTime(
+                      new Date(event.startDate),
+                      new Date(event.endDate),
+                      event.location.timeZoneId,
+                    )}`}
+                    </h4>
                     <span className="normal f7 gray">Time</span>
                   </div>
                 </div>
