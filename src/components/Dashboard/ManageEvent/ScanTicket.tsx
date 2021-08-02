@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { EventProps, OrderProps, UserTicketProps } from '../../../@types/types';
 import moment from 'moment';
 import classnames from 'classnames';
-import { formatDate, formatEventDateTime, formatEventTime, getOrderTicketCount } from '../../../lib';
+import { formatDate, formatEventDateTime, formatEventTime, getOrderTicketCount, instance } from '../../../lib';
 import QRCode from 'qrcode.react';
 
 const importQR = () => import('react-qr-reader');
@@ -20,7 +20,7 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
   event,
   orders,
 }) => {
-  const [tickets] = useState<UserTicketProps[]>(
+  const [tickets,setTickets] = useState<UserTicketProps[]>(
     orders.reduce((acc, curr) => {
       return acc.concat(curr.tickets);
     }, [])
@@ -28,24 +28,55 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
   const [live] = useState<boolean>(new Date(event.startDate) > new Date());
   const [facing, setFacing] = useState<boolean>(true);
   const [tixMode, setTixMode] = useState<boolean>(false);
+  const [currEvent, setCurrEvent] = useState<EventProps>(event);
+  const [error, setError] = useState<boolean>(false);
   const [order, setOrder] = useState<OrderProps>(null);
   const [tix, setTix] = useState<UserTicketProps>(null);
 
   const [inProgress] = useState<boolean>(
     moment().isBetween(event.startDate, event.endDate)
   );
-  console.log(orders)
   const handleScan = (data) => {
-    console.log('dude',data);
     
     if (data) {
       const tix = (tickets.filter((curr) => curr.barCode === data))[0];
       if (tix){
-        setTix(tix)
-        const order = orders.filter((curr)=> curr._id === tix.orderId)[0]
-        setOrder(order)
+        setTix(tix);
+        setError(false);
+        const existingOrder = orders.filter((curr)=> curr._id === tix.orderId)[0]
+        let checkedIn = true;
+        const newOrder: OrderProps = { 
+          ...existingOrder,
+          tickets: existingOrder.tickets.map(tix=>{
+            if((!tix.checkedIn && tix.barCode !== data) && checkedIn){
+              checkedIn = false;
+            }
+            return {
+              ...tix,
+              checkedIn: tix.barCode === data ? true: tix.checkedIn,
+              checkInDate: tix.barCode === data ? new Date(): tix.checkInDate
+            }
+          }),
+          checkedIn
+        }
+        const updatedEvent = {
+          ...currEvent,
+          tickets: currEvent.tickets.map(order=>{
+            if(order._id === newOrder._id) return newOrder
+            return order
+          })
+        }
+        setOrder(existingOrder)
         setTixMode(true)
-        console.log('bro',tix, order);
+        setCurrEvent(updatedEvent)
+        setTickets(updatedEvent.tickets.reduce((acc, curr) => {
+          return acc.concat(curr.tickets);
+        }, []))
+        instance.post(`/api/scanTix`,{order: newOrder, event: updatedEvent})
+        .then(res=>console.log(res.data))
+        .catch(err=>console.log('error',err))
+      } else {
+        setError(true)
       }
     }
   };
@@ -64,35 +95,26 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
               </span>
             </div>
             <div className=" lh-title f3 mb0 mt0-ns underline-hover">
-              <a className="white no-underline">{event.name}</a>
+              <a className="white no-underline">{currEvent.name}</a>
             </div>
             <div className="f4-ns f5 fw6 lh-title mv0 underline-hover">
               <a
                 className="white no-underline"
                 target="_blank"
-                href={`https://www.google.com/maps/place/?q=place_id:${event.location.placeId}`}
+                href={`https://www.google.com/maps/place/?q=place_id:${currEvent.location.placeId}`}
               >
-                {event.location.venue}
+                {currEvent.location.venue}
               </a>
             </div>
             <div>
               <span className="f4-ns f5 fw6 mv0 gray">
                 {`${formatEventDateTime(
-                  new Date(event.startDate),
-                  new Date(event.endDate),
-                  event.location.timeZoneId
+                  new Date(currEvent.startDate),
+                  new Date(currEvent.endDate),
+                  currEvent.location.timeZoneId
                 )}`}
               </span>
             </div>
-            <h2
-              className={`f4-ns f5 fw6 mv0 ${classnames({
-                green: live && !inProgress,
-                red: !live,
-                yellow: inProgress,
-              })}`}
-            >
-              • {inProgress ? `In Progress` : live ? `Live` : `Sale Ended`}
-            </h2>
           </div>
           <div className="w-auto-m dtc" />
         </article>
@@ -136,6 +158,18 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
                   Purchase Date: {`${formatDate(order.orderDate, 'medium')}`}
                 </span>
               </div>
+              <h2
+                className={`f4-ns f5 fw6 mv0`}
+                >
+                <span className={`
+                ${classnames({
+                  green: !tix.checkedIn,
+                  red: tix.checkedIn,
+                  yellow: inProgress,
+                })}`}>
+                • {inProgress ? `Partially Scanned` : tix.checkedIn ? `Already scanned` : `Checked In`}
+                </span>
+              </h2>
             </div>
             <div className="w-auto-m dtc" />
           </article>
@@ -151,14 +185,14 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
                 className="mv2 pv3"
                 style={{
                   background:
-                    `linear-gradient(to bottom, #e84c3d 0%, #e84c3d 26%, #ecedef 26%, #ecedef 100%)`,
+                    `linear-gradient(to bottom, ${classnames({'#e84c3d 0%, #e84c3d 26%': tix.checkedIn,'#129238 0%, #177a1c 26%': !tix.checkedIn,  })}, #ecedef 26%, #ecedef 100%)`,
                 }}
               >
                 Social <span className="normal">Ticketing</span>
               </h3>
               <div className="fl">
                 <div className="ttu  mt3">
-                  <h4 className="mv0">{event.name}</h4>
+                  <h4 className="mv0">{currEvent.name}</h4>
                   <span className="normal f7 gray">Event</span>
                 </div>
                 <div className="ttu mt2">
@@ -171,9 +205,9 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
                 </div>
                 <div className="ttu fl mt2 ml2">
                   <h4 className="mv0">{`${formatEventTime(
-                  new Date(event.startDate),
-                  new Date(event.endDate),
-                  event.location.timeZoneId,
+                  new Date(currEvent.startDate),
+                  new Date(currEvent.endDate),
+                  currEvent.location.timeZoneId,
                 )}`}</h4>
                   <span className="normal f7 gray">Time</span>
                 </div>
@@ -190,7 +224,7 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
               </div>
             </div>
         </div>
-        <div className="dtc-l v-mid tr-l tc f2-l f3 fw6 mt3">
+        <div className="dtc-l v-mid tr-l tc f2-l f3 fw6 mt3 pt3">
           <span
             onClick={() => setTixMode(false)}
             className="no-underline white  noselect br-100 tc pa2 mr2 mt2-l ph4 mt2  bg-green"

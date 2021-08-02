@@ -1,4 +1,4 @@
-import { sendEmail, wrapAsync } from './helpers';
+import { wrapAsync } from './helpers';
 import { OrderProps, EventProps } from '../../src/@types/types';
 import { NextApiRequest } from 'next';
 
@@ -18,6 +18,5 @@ const updateOrder = async (
 export default wrapAsync(async (req: NextApiRequest, db: any) => {
   const { event, order }: { event: EventProps; order: OrderProps } = req.body;
   await updateOrder(order, event, db);
-  await sendEmail([order.emailAddress], event, order);
   return true;
 });
