@@ -103,6 +103,10 @@ export interface UserProps {
   _id: string;
   updatedAt: Date;
   firebase: any;
+  email: string;
+  dateCreated: Date;
+  info: any;
   payouts: any;
   settings: any;
+  events: EventProps[];
 }
