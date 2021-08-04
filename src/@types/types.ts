@@ -99,6 +99,51 @@ export interface EventCartProps {
   ticketName: string;
 }
 
+export interface UserSettingsProps {
+  _id: string;
+  generalInfo: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    companyName: string;
+    logo:string;
+    website: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    country: string;
+    taxId?: string;
+    zip: string;
+    description: string;
+    numPastEvents: number;
+    numFutureEvents: number;
+  },
+  billing: {
+    accountType: string;
+    accountNumber: number;
+    routingNumber: number;
+    companyName: string;
+    eventIds:[
+     [eventId: string],
+    ]
+  }
+  team: [{
+    email: string;
+    _id: string;
+    accessLevel: string;
+    events: [eventId: string];
+  }],
+  socials: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+  }
+  preferences: {
+
+  }
+
+}
 export interface UserProps {
   _id: string;
   updatedAt: Date;
@@ -107,6 +152,6 @@ export interface UserProps {
   dateCreated: Date;
   info: any;
   payouts: any;
-  settings: any;
+  settings: UserSettingsProps;
   events: EventProps[];
 }
