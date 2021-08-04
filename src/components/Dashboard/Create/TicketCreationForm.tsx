@@ -57,7 +57,7 @@ export const TicketCreationForm: React.FunctionComponent<TicketingProps> = ({
     quantity: parseInt(quantity),
     description,
     price: parseInt(price),
-    fee: parseInt(price) * 0.12,
+    fee: parseFloat((parseInt(price) * 0.12).toFixed(2)),
     free: parseInt(price) === 0,
     donation: false,
     sold,

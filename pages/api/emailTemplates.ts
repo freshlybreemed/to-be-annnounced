@@ -58,6 +58,7 @@ export const emailTemplates = {
       <div itemprop="reservationFor" itemscope itemtype="http://schema.org/Event">
         <meta itemprop="name" content="${event.name}"/>
         <meta itemprop="startDate" content="${event.startDate}"/>
+        <meta itemprop="endDate" content="${event.endDate}"/>
         <div itemprop="location" itemscope itemtype="http://schema.org/Place">
           <meta itemprop="name" content="${event.location.venue}"/>
           <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
@@ -604,7 +605,7 @@ export const emailTemplates = {
                                                     color: #3f60e7 !important;
                                                   "
                                                   href=""
-                                                  >#3849123</a
+                                                  >#${order._id}</a
                                                 >
                                                 - ${formatDate(order.orderDate)}
                                               </font>

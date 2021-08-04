@@ -46,6 +46,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
   const prepareCheckout = async () => {
     const { ticketTypes } = event;
     const tickets = [] as UserTicketProps[];
+    const orderId = customId({});
     Object.keys(cart).forEach((curr) => {
       const tix = cart[curr];
       for (var i = 0; i < tix.quantity; i++) {
@@ -58,7 +59,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
           donation: tempTix.donation,
           free: tempTix.free,
           barCode: customId({}),
-          orderId: customId({}),
+          orderId,
           eventId: event._id,
           checkedIn: null,
           checkInDate: null,
@@ -70,7 +71,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
       firstName,
       lastName,
       eventId: event._id,
-      _id: customId({}),
+      _id: orderId,
       token: null,
       phoneNumber,
       checkedIn: false,
@@ -103,6 +104,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
 
   const handleFreeCheckout = async () => {
     const { ticketTypes } = event;
+    const orderId = customId({});
     setMode(3);
     const tickets = [] as UserTicketProps[];
     Object.keys(cart).forEach((curr) => {
@@ -117,7 +119,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
           donation: tempTix.donation,
           free: tempTix.free,
           barCode: customId({}),
-          orderId: customId({}),
+          orderId,
           eventId: event._id,
           checkedIn: null,
           checkInDate: null,
@@ -130,7 +132,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
       lastName,
       token: null,
       eventId: event._id,
-      _id: customId({}),
+      _id: orderId,
       phoneNumber,
       checkedIn: false,
       refunded: false,
@@ -348,7 +350,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
         {step === 1 && (
           <div className="w-100 dib">
             <FadeIn>
-              <span className="f3-l f4 fw6-l fw4 br-100 b--solid pv2 ph3 mv4">
+              <span className="f3-l f4 fw6-l fw4 bw2 br-100 b--solid pv2 ph3 mv4">
                 Tickets
               </span>
               <TicketCheckoutForm
@@ -380,7 +382,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
               {Object.keys(event.lineUp).map((curr) => (
                 <div>
                   <img
-                    className="db mw-100 "
+                    className="db mw-100 pb2"
                     src={event.lineUp[curr].imageURL}
                     alt=""
                   />

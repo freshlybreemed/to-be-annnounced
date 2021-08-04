@@ -54,15 +54,19 @@ export const Events: React.FunctionComponent<MyEventsProps> = ({ events }) => {
   const isMounted = useMounted();
   const [eventResults, setEventResults] = useState<EventProps[]>(events);
   const [query, setQuery] = useState<string>('');
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const getEvents = (query) => {
+    setIsSearching(true)
     index
       .search(query)
       .then(({ hits }: any) => {
+        setIsSearching(false);
         setEventResults(hits);
         console.log(hits);
       })
       .catch((err) => {
+        setIsSearching(false);
         console.log(err);
       });
   };
@@ -93,7 +97,7 @@ export const Events: React.FunctionComponent<MyEventsProps> = ({ events }) => {
               }}
             />
           </div>
-          {isMounted ? (
+          {isMounted && !isSearching ? (
             <FadeIn>
               <Grid>
                 {eventResults.reverse().map((curr: EventProps, ind) => (
@@ -144,7 +148,7 @@ export const Events: React.FunctionComponent<MyEventsProps> = ({ events }) => {
             </FadeIn>
           ) : (
             <div className="f1 tc">
-              <i className="fa fa-spinner fa-spin  " />
+              <i className="fa-2x fa fa-spinner fa-spin  " />
             </div>
           )}
         </div>
