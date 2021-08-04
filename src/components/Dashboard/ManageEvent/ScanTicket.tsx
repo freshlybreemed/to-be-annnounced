@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { EventProps, OrderProps, UserTicketProps } from '../../../@types/types';
 import moment from 'moment';
 import classnames from 'classnames';
-import { formatDate, formatEventDateTime, formatEventTime, getOrderTicketCount, instance } from '../../../lib';
+import { formatDate, formatDateTimeWithTimeZone, formatEventDateTime, formatEventTime, getOrderTicketCount, instance } from '../../../lib';
 import QRCode from 'qrcode.react';
 
 const importQR = () => import('react-qr-reader');
@@ -167,7 +167,7 @@ export const ScanTicket: React.FunctionComponent<Props> = ({
                   red: tix.checkedIn,
                   yellow: inProgress,
                 })}`}>
-                • {inProgress ? `Partially Scanned` : tix.checkedIn ? `Already scanned` : `Checked In`}
+                • {inProgress ? `Partially Scanned` : tix.checkedIn ? `Already scanned at ${formatDateTimeWithTimeZone(tix.checkInDate,'short',event.location.timeZoneId)}` : `Checked In`}
                 </span>
               </h2>
             </div>
