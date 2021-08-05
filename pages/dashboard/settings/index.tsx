@@ -20,7 +20,7 @@ const Page: NextPage = () => {
           (<section className="flex-m flex-l nl3-m nr3-m nl3-l nr3-l">
             <Settings 
 
-            userProp={user.settings}
+            userProp={user}
             />
           </section>): (
           <div className="vh-50 dt center">

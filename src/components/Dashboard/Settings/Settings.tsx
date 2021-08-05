@@ -10,7 +10,7 @@ import { BasicInfo } from './BasicInfo';
 import { Billing } from './Billing';
 
 interface SettingsProps {
-  userProp: UserSettingsProps;
+  userProp: UserProps;
 }
 export const Settings: React.FunctionComponent<SettingsProps> = ({userProp}) => {
 // sole.log(user)

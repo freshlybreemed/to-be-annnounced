@@ -8,25 +8,23 @@ import { EventProps, UserProps, UserSettingsProps } from '../../../@types/types'
 import { validStartDate, validEndDate, timeConstraints } from '../../../lib';
 
 interface SettingsProps {
-  userProp: UserSettingsProps;
+  userProp: UserProps;
 }
 export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) => {
-// sole.log(user)
-    const [user, setUser] = useState<any>(userProp);
-    const [firstName, setFirstName] = useState<any>(userProp.firstName || "");
-    const [lastName, setLastName] = useState<any>(userProp.lastName || "");
-    const [phoneNumber, setPhoneNumber] = useState<any>(userProp.phoneNumber || "");
-    const [instagram, setInstagram] = useState<any>(userProp.socials?.instagram || "");
-    const [twitter, setTwitter] = useState<any>(userProp.socials?.twitter || "");
-    const [companyName, setCompanyName] = useState<any>(userProp.companyName || "");
-    const [emailAddress, setEmailAddress] = useState<any>(userProp.emailAddress || "");
-    const [website, setWebsite] = useState<any>(userProp.website || "");
-    const [address1, setAddress1] = useState<any>(userProp.address1 || "");
-    const [address2, setAddress2] = useState<any>(userProp.address2 || "");
-    const [city, setCity] = useState<any>(userProp.city || "");
-    const [zip, setZip] = useState<any>(userProp.zip || "");
-    const [state, setState] = useState<any>(userProp.state || "");
-    const [userLocation, setUserLocation] = useState<any>(user);
+    const { settings } = userProp;
+    const [firstName, setFirstName] = useState<any>(settings.firstName || "");
+    const [lastName, setLastName] = useState<any>(settings.lastName || "");
+    const [phoneNumber, setPhoneNumber] = useState<any>(settings.phoneNumber || "");
+    const [instagram, setInstagram] = useState<any>(settings.socials?.instagram || "");
+    const [twitter, setTwitter] = useState<any>(settings.socials?.twitter || "");
+    const [companyName, setCompanyName] = useState<any>(settings.companyName || "");
+    const [emailAddress, setEmailAddress] = useState<any>(settings.emailAddress || "");
+    const [website, setWebsite] = useState<any>(settings.website || "");
+    const [address1, setAddress1] = useState<any>(settings.address1 || "");
+    const [address2, setAddress2] = useState<any>(settings.address2 || "");
+    const [city, setCity] = useState<any>(settings.city || "");
+    const [zip, setZip] = useState<any>(settings.zip || "");
+    const [state, setState] = useState<any>(settings.state || "");
     const [image, setImage] = useState<string>('user');
     const [loading, setLoading] = useState<boolean>(false);
     const [settingsErrors, setSettingsErrors] = useState<any>({});
@@ -180,16 +178,25 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
 
         }
     ]
+
+    const handleSubmit = () =>{
+
+    };
+
     return (
 
-        <div className={'w-100 ph4 pt4 bg-white black'}>
+        <div className={'w-100 ph4 pt4  bg-white black'}>
+            <div role="alert">
+                <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                    Danger
+                </div>
+                <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                    <p>Something not ideal might be happening.</p>
+                </div>
+            </div>
             <div className="w-60-ns w-100 center">
                 <div>
                     <h1 className="tl fw7 mb0 pb3">Basic Info</h1>
-                    <p className="tl mt0 pt1 f6">
-                    Name your event and tell event-goers why they should come. Add
-                    details that highlight what makes it unique.
-                    </p>
                     {inputConfig.map(fieldGroup=>{
                         const fieldOne = fieldGroup.fields[0]
                         if(fieldGroup.fields.length === 2) {
@@ -256,48 +263,26 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                             )
                         }   
                     })}
-
                     <hr className="o-20 " />
                 </div>
                 <div className="mv4 pv2">
                     <h1 className="tl fw7 mb0 pb3">Event Image</h1>
                     <div className="mb5">
-                    <img src={image} className="db w-100" />
-                    <UploadFlyer setImage={setImage} />
+                        <img src={image} className="db w-100" />
+                        <UploadFlyer setImage={setImage} />
                     </div>
                     <hr className="o-20 " />
                 </div>
-                <div className="mv4 pv2">
-                    <h1 className="tl fw7 mb0 pb3">Ticket Details</h1>
-
-
-                </div>
                 <hr className="o-20" />
-                <div className="mv4 pv2">
-                    <h1 className="tl fw7 mb0 pb3">Event Description</h1>
-                    <div className="mv3 pv3 w-100 center">
-                    
-                    </div>
-                </div>
-                <hr className="o-20" />
-                <div className="mv4 pt2">
-                    <h1 className="tl fw7 mb0 pb3">Event Line Up</h1>
-                
-                </div>
-                </div>
-                <div
-                className="mv4 b--black ba bw1 dib noselect br-100 b--solid pa2 ph4 f3 fw5"
-                //   onClick={() => handleSubmit()}
-                >
-                {loading && <i className="fa fa-spinner fa-spin mr2" />}
-                {loading
-                    ? event
-                    ? 'Updating...'
-                    : 'Submitting...'
-                    : event
-                    ? 'Update'
-                    : 'Submit'}
-                </div>
             </div>
+            <div
+            className="mv4 b--black ba bw1 dib noselect br-100 b--solid pa2 ph4 f3 fw5"
+            onClick={() => handleSubmit()}
+            >
+            {loading && <i className="fa fa-spinner fa-spin mr2" />}
+            {loading ? 'Saving...'
+                : 'Save'}
+            </div>
+        </div>
     );
 }

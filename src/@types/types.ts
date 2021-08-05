@@ -101,11 +101,12 @@ export interface EventCartProps {
 
 export interface UserSettingsProps {
   _id: string;
-  generalInfo: {
+  // generalInfo: {
     firstName: string;
     lastName: string;
     phoneNumber: string;
     companyName: string;
+    emailAddress: string;
     logo:string;
     website: string;
     address1: string;
@@ -118,7 +119,7 @@ export interface UserSettingsProps {
     description: string;
     numPastEvents: number;
     numFutureEvents: number;
-  },
+  // },
   billing: {
     accountType: string;
     accountNumber: number;

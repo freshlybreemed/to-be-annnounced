@@ -3,21 +3,30 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
 import { UploadFlyer } from '..';
-import { UserProps, UserSettingsProps } from '../../../@types/types';
+import { UserSettingsProps } from '../../../@types/types';
 
 interface SettingsProps {
-  userProp: UserProps;
+  userProp: UserSettingsProps;
 }
 export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
-    const { settings } = userProp;
-    const { billing } = settings;
-    const [accountNumber, setAccountNumber] = useState<string>(billing.accountNumber || "");
-    const [accountType, setAccountType] = useState<string>(billing.accountType || "");
-    const [routingNumber, setRoutingNumber] = useState<string>(billing.routingNumber || "");
-    const [bankName, setBankName] = useState<string>(billing.bankName || "");
-    const [companyName, setCompanyName] = useState<string>(settings.companyName || "");
+    const [accountNumber, setAccountNumber] = useState<any>(userProp.billing.accountNumber || "");
+    const [lastName, setLastName] = useState<any>(userProp.lastName || "");
+    const [accountType, setAccountType] = useState<any>(userProp.billing.accountType || "");
+    const [routingNumber, setRoutingNumber] = useState<any>(userProp.billing.routingNumber || "");
+    const [bankName, setBankName] = useState<any>(userProp.billing.bankName || "");
+    const [instagram, setInstagram] = useState<any>(userProp.socials?.instagram || "");
+    const [twitter, setTwitter] = useState<any>(userProp.socials?.twitter || "");
+    const [companyName, setCompanyName] = useState<any>(userProp.companyName || "");
+    const [emailAddress, setEmailAddress] = useState<any>(userProp.emailAddress || "");
+    const [website, setWebsite] = useState<any>(userProp.website || "");
+    const [address1, setAddress1] = useState<any>(userProp.address1 || "");
+    const [address2, setAddress2] = useState<any>(userProp.address2 || "");
+    const [city, setCity] = useState<any>(userProp.city || "");
+    const [zip, setZip] = useState<any>(userProp.zip || "");
+    const [state, setState] = useState<any>(userProp.state || "");
+    const [userLocation, setUserLocation] = useState<any>('user');
+    const [image, setImage] = useState<string>('user');
     const [loading, setLoading] = useState<boolean>(false);
-    const [focus, setFocus] = useState<string>('');
     const [settingsErrors, setSettingsErrors] = useState<any>({});
 
     const checkForErrors = (item) => {
@@ -41,11 +50,20 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
         {
             fields: [
                 {
-                    label: 'Tax ID/EIN',
-                    name: 'companyName',
-                    value: companyName,
-                    set: setCompanyName,
-                    required: false,
+                    label: 'Account Number',
+                    name: 'accountNumber',
+                    value: accountNumber,
+                    set: setAccountNumber,
+                    required: true,
+                    error: false,
+                    errorText: 'Please enter in a last name'
+                },
+                {
+                    label: 'Routing Number',
+                    name: 'routingNumber',
+                    value: routingNumber,
+                    set: setRoutingNumber,
+                    required: true,
                     error: false,
                     errorText: 'Please enter in a last name'
                 },
@@ -54,14 +72,6 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
      ];
 
     const handleSubmit = () => {
-        const billingInfo = {
-            ...billing,
-            accountType,
-            accountNumber,
-            routingNumber,
-            companyName,
-            bankName,
-        }
 
     }
     return (
@@ -92,41 +102,6 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                         <label for="contactChoice1">Savings</label>
 
                     </div>
-                    <div className="mv3 w-100">
-                                <div className="dib w-50 pr2">
-                                    <div className="tl ba-hover overflow-visible">
-                                    <small className="db pl2 pt2 pb1 mid-gray ">
-                                    {'Account Number'} {<span className="red">*</span>}
-                                    </small>
-                                    <input
-                                        onFocus={()=>setFocus('accountNumber')}
-                                        value={focus === 'accountNumber' ? accountNumber: accountNumber.replace(/\d(?=\d{4})/g, "*")}
-                                        placeholder={"1203480123123".replace(/\d(?=\d{4})/g, "*")}
-                                        onChange={(event) => {
-                                        setAccountNumber(event.currentTarget.value);
-                                        checkForErrors({name:event.currentTarget.value})
-                                        }}
-                                        className="pl2 pb2  input-reset  bn w-90"
-                                    />
-                                    </div>
-                                </div>
-                                <div className="dib  w-50 ">
-                                    <div className="tl ba-hover overflow-visible">
-                                        <small className="db pl2 pt2 pb1 mid-gray ">
-                                        Routing Number <span className="red">*</span>
-                                        </small>
-                                        <input
-                                            onFocus={()=>setFocus('routingNumber')}
-                                            value={focus === 'routingNumber' ? routingNumber: routingNumber.replace(/\d(?=\d{4})/g, "*")}
-                                            onChange={(event) => {
-                                                setRoutingNumber(event.currentTarget.value);
-                                                checkForErrors({name:event.currentTarget.value})
-                                            }}
-                                            className="pl2 pb2  input-reset  bn w-90"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
                     {inputConfig.map(fieldGroup=>{
                         const fieldOne = fieldGroup.fields[0]
                         if(fieldGroup.fields.length === 2) {
@@ -140,7 +115,6 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                                     </small>
                                     <input
                                         value={fieldOne.value}
-                                        placeholder={"1203480123123".replace(/\d(?=\d{4})/g, "*")}
                                         onChange={(event) => {
                                         fieldOne.set(event.currentTarget.value);
                                         checkForErrors({name:event.currentTarget.value})
