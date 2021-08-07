@@ -4,6 +4,7 @@ import Firebase from '../lib/firebase';
 import { setCookie } from '../lib';
 import axios from 'axios';
 import Router from 'next/router';
+import { UserProps } from '../@types/types';
 
 export const SignUp: React.FunctionComponent = ({}) => {
   const [email, setEmail] = useState<string>('');
@@ -35,14 +36,54 @@ export const SignUp: React.FunctionComponent = ({}) => {
         }
         if (typeof result !== 'undefined') {
           console.log(result);
+          const user: UserProps = {
+            _id: result.user.uid,
+            updatedAt: new Date(),
+            firebase: result.user,
+            dateCreated: new Date(),
+            payouts: {
+
+            },
+            eventIds:[],
+            settings: {
+                  firstName,
+                  lastName,
+                  phoneNumber:"",
+                  companyName:"",
+                  emailAddress: email,
+                  logo:"",
+                  website:"",
+                  address1:"",
+                  address2:"",
+                  city:"",
+                  state:"",
+                  country:"USA",
+                  taxId:"",
+                  zip:"",
+                  description:"",
+                  numPastEvents:0,
+                  numFutureEvents:0,
+                billing: {
+                  _id: "",
+                  accountType: "",
+                  accountNumber: "",
+                  routingNumber: "",
+                  companyName: "",
+                  bankName: "",
+                  eventIds:[],
+                },
+                team: [],
+                socials: {
+                  facebook: "",
+                  twitter: "",
+                  instagram: "",
+                },
+                preferences: {},
+            },
+          }
           axios
             .post('/api/user', {
-              user: {
-                firebase: result.user,
-                email: result?.user?.email,
-                new: true,
-                info: { firstName, lastName },
-              },
+              user
             })
             .then(() => {
               setCookie('id_token', result.user.uid);

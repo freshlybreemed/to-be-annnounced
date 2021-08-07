@@ -99,60 +99,66 @@ export interface EventCartProps {
   ticketName: string;
 }
 
-export interface UserSettingsProps {
+export interface PayoutProps {
   _id: string;
-  // generalInfo: {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    companyName: string;
-    emailAddress: string;
-    logo:string;
-    website: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    country: string;
-    taxId?: string;
-    zip: string;
-    description: string;
-    numPastEvents: number;
-    numFutureEvents: number;
-  // },
+  eventName: string;
+  eventDate: Date;
+  sentDate: Date;
+  arrivalDate: Date;
+  netTicketSales: number;
+  payoutAmount: number;
+  grossSales: number
+  currency: string;
+  eventStatus: string;
+  payoutMethod: string;
+  payoutType: string;
+}
+export interface UserSettingsProps {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  companyName: string;
+  emailAddress: string;
+  logo:string;
+  website: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  country: string;
+  taxId?: string;
+  zip: string;
+  description: string;
+  numPastEvents: number;
+  numFutureEvents: number;
   billing: {
+    _id: string;
     accountType: string;
-    accountNumber: number;
-    routingNumber: number;
+    accountNumber: string;
+    routingNumber: string;
     companyName: string;
-    eventIds:[
-     [eventId: string],
-    ]
+    bankName: string;
+    eventIds: string[]
   }
-  team: [{
+  team: {
     email: string;
     _id: string;
     accessLevel: string;
     events: [eventId: string];
-  }],
+  }[],
   socials: {
     facebook: string;
     twitter: string;
     instagram: string;
   }
-  preferences: {
-
-  }
-
+  preferences: any;
 }
 export interface UserProps {
   _id: string;
   updatedAt: Date;
   firebase: any;
-  email: string;
   dateCreated: Date;
-  info: any;
   payouts: any;
   settings: UserSettingsProps;
-  events: EventProps[];
+  eventIds: string[];
 }
