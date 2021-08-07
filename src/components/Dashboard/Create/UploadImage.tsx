@@ -5,7 +5,7 @@ interface EventImageProps {
   setImage: any;
 }
 
-export const UploadFlyer: React.FunctionComponent<EventImageProps> = ({
+export const UploadImage: React.FunctionComponent<EventImageProps> = ({
   setImage,
 }) => {
   const [uploading, setUploading] = useState<boolean>(false);
@@ -50,13 +50,13 @@ export const UploadFlyer: React.FunctionComponent<EventImageProps> = ({
   return (
     <div className="mt4 relative overflow-hidden dib">
       <div className="ba bw1 b--black dib noselect br-100 b--solid pa2 ph3 f5 fw5"
-          onClick={()=>document.getElementById('uploadFlyer').click()}
+          onClick={()=>document.getElementById('UploadImage').click()}
         >
-        Upload Flyer
+        Upload Image
       </div>
       <input
         type="file"
-        id="uploadFlyer"
+        id="UploadImage"
         onChange={(e) => handleChange(e.target.files)}
         style={{ left: 0, top: 0 }}
         className="absolute o-0"

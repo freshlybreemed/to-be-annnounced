@@ -7,7 +7,7 @@ export { Create } from './Create/Create';
 export { DateTimePicker } from './Create/DateTimePicker';
 export { PlacesAutoComplete } from './Create/PlacesAutoComplete';
 export { TextEditor } from './Create/TextEditor';
-export { UploadFlyer } from './Create/UploadFlyer';
+export { UploadImage } from './Create/UploadImage';
 export { ArtistCreationForm } from './Create/ArtistCreationForm';
 export { TicketCreationForm } from './Create/TicketCreationForm';
 export { Payouts } from './Payouts/Payouts';

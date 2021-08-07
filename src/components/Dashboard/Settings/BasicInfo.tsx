@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
-import { PlacesAutoComplete, DateTimePicker, UploadFlyer } from '..';
+import { PlacesAutoComplete, DateTimePicker, UploadImage } from '..';
 import settings from '../../../../pages/dashboard/settings';
 import { EventProps, UserProps, UserSettingsProps } from '../../../@types/types';
 import { validStartDate, validEndDate, timeConstraints } from '../../../lib';
@@ -25,7 +25,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
     const [city, setCity] = useState<any>(settings.city || "");
     const [zip, setZip] = useState<any>(settings.zip || "");
     const [state, setState] = useState<any>(settings.state || "");
-    const [image, setImage] = useState<string>('user');
+    const [image, setImage] = useState<string>(settings.logo || "");
     const [loading, setLoading] = useState<boolean>(false);
     const [settingsErrors, setSettingsErrors] = useState<any>({});
 
@@ -268,8 +268,8 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                 <div className="mv4 pv2">
                     <h1 className="tl fw7 mb0 pb3">Event Image</h1>
                     <div className="mb5">
-                        <img src={image} className="db w-100" />
-                        <UploadFlyer setImage={setImage} />
+                        {image && <img src={image} className="db w-100" />}
+                        <UploadImage setImage={setImage} />
                     </div>
                     <hr className="o-20 " />
                 </div>
