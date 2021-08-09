@@ -1,9 +1,8 @@
+import Axios from 'axios';
 import classnames from 'classnames';
-import classNames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
-import { UploadFlyer } from '..';
-import { UserProps, UserSettingsProps } from '../../../@types/types';
+import { UserProps } from '../../../@types/types';
 
 interface SettingsProps {
   userProp: UserProps;
@@ -21,7 +20,17 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
     const [settingsErrors, setSettingsErrors] = useState<any>({});
 
     const checkForErrors = (item) => {
-        return true;
+        let hasErrors = false;
+        const key = Object.keys(item)[0];
+        // switch(key){
+        //     case "routingNumber": 
+        //     const routing = valid.routingNumber(routingNumber);
+        //     setSettingsErrors({
+        //         ...settingsErrors,
+        //         routingNumber: !routing.isValid
+        //       });
+        // }
+        return hasErrors;
     }
 
     const inputConfig = [
@@ -54,25 +63,39 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
      ];
 
     const handleSubmit = () => {
-        const billingInfo = {
-            ...billing,
-            accountType,
-            accountNumber,
-            routingNumber,
-            companyName,
-            bankName,
+        setLoading(true)
+        const user:UserProps = {
+            ...userProp,
+            settings: {
+                ...settings,
+                billing:{
+                    ...billing,
+                    accountType,
+                    accountNumber,
+                    routingNumber,
+                    companyName,
+                    bankName,
+                }
+            }
         }
-
+        Axios.post('/api/user', { data: user
+        })
+        .then((res)=>{
+            console.log(res.data)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+        setLoading(false)
     }
     return (
 
         <div className={'w-100 ph4 pt4 bg-white black'}>
-            <div className="w-60-ns w-100 center">
+            <div className="w-70-ns w-100 center">
                 <div>
                     <h1 className="tl fw7 mb0 pb3">Billing</h1>
                     <p className="tl mt0 pt1 f6">
-                    Name your event and tell event-goers why they should come. Add
-                    details that highlight what makes it unique.
+                    Add you billing information and how you would like to receive payouts
                     </p>
                     <div
                         className={`mt3 mb2 tl`}
@@ -92,47 +115,51 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                         <label for="contactChoice1">Savings</label>
 
                     </div>
-                    <div className="mv3 w-100">
-                                <div className="dib w-50 pr2">
-                                    <div className="tl ba-hover overflow-visible">
-                                    <small className="db pl2 pt2 pb1 mid-gray ">
-                                    {'Account Number'} {<span className="red">*</span>}
-                                    </small>
-                                    <input
-                                        onFocus={()=>setFocus('accountNumber')}
-                                        value={focus === 'accountNumber' ? accountNumber: accountNumber.replace(/\d(?=\d{4})/g, "*")}
-                                        placeholder={"1203480123123".replace(/\d(?=\d{4})/g, "*")}
-                                        onChange={(event) => {
-                                        setAccountNumber(event.currentTarget.value);
-                                        checkForErrors({name:event.currentTarget.value})
-                                        }}
-                                        className="pl2 pb2  input-reset  bn w-90"
-                                    />
-                                    </div>
-                                </div>
-                                <div className="dib  w-50 ">
-                                    <div className="tl ba-hover overflow-visible">
-                                        <small className="db pl2 pt2 pb1 mid-gray ">
-                                        Routing Number <span className="red">*</span>
-                                        </small>
-                                        <input
-                                            onFocus={()=>setFocus('routingNumber')}
-                                            value={focus === 'routingNumber' ? routingNumber: routingNumber.replace(/\d(?=\d{4})/g, "*")}
-                                            onChange={(event) => {
-                                                setRoutingNumber(event.currentTarget.value);
-                                                checkForErrors({name:event.currentTarget.value})
-                                            }}
-                                            className="pl2 pb2  input-reset  bn w-90"
-                                        />
-                                    </div>
-                                </div>
+                    <div className="md:my-3 w-100">
+                        <div className="dib md:w-2/4 w-full md:mb-0 mb-2 md:pr-2">
+                            <div className="tl ba-hover overflow-visible">
+                                <small className="db pl2 pt2 pb1 mid-gray ">
+                                {'Account Number'} {<span className="red">*</span>}
+                                </small>
+                                <input
+                                    onFocus={()=>setFocus('accountNumber')}
+                                    value={focus === 'accountNumber' ? accountNumber: accountNumber.replace(/\d(?=\d{4})/g, "*")}
+                                    placeholder={"1203480123123".replace(/\d(?=\d{4})/g, "*")}
+                                    onChange={(event) => {
+                                    setAccountNumber(event.currentTarget.value);
+                                    checkForErrors({name:event.currentTarget.value})
+                                    }}
+                                    className="pl2 pb2  input-reset  bn w-90"
+                                />
                             </div>
+                        </div>
+                        <div className="dib  md:w-2/4 w-full md:mb-0 mb-2 ">
+                            <div className={`tl ${classnames({ 'ba-hover': !settingsErrors["routingNumber"],
+                'ba-hover-error': settingsErrors["routingNumber"]})} overflow-visible`}>
+                                <small className="db pl2 pt2 pb1 mid-gray ">
+                                Routing Number <span className="red">*</span>
+                                </small>
+                                <input
+                                    onFocus={()=>setFocus('routingNumber')}
+                                    value={focus === 'routingNumber' ? routingNumber: routingNumber.replace(/\d(?=\d{4})/g, "*")}
+                                    onChange={(event) => {
+                                        setRoutingNumber(event.currentTarget.value);
+                                        checkForErrors({routingNumber:event.currentTarget.value})
+                                    }}
+                                    className="pl2 pb2  input-reset  bn w-90"
+                                />
+                            </div>
+                            {settingsErrors["routingNumber"] && (
+                                <small className="db tl red">{"Invalid Routing Number"}</small>
+                                )}
+                        </div>
+                    </div>
                     {inputConfig.map(fieldGroup=>{
                         const fieldOne = fieldGroup.fields[0]
                         if(fieldGroup.fields.length === 2) {
                             const fieldTwo = fieldGroup.fields[1]
                             return (
-                            <div className="mv3 w-100">
+                            <div className=" w-100">
                                 <div className="dib w-50 pr2">
                                     <div className="tl ba-hover overflow-visible">
                                     <small className="db pl2 pt2 pb1 mid-gray ">
@@ -170,7 +197,7 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                             return (
                                 <>
                                     <div
-                                    className={`mt3 mb2 tl ${classNames({
+                                    className={`mb2 tl ${classnames({
                                     'ba-hover': !settingsErrors.name,
                                     'ba-hover-error': settingsErrors.name,
                                 })}`}

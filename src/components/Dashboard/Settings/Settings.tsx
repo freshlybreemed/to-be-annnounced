@@ -1,11 +1,7 @@
 import classnames from 'classnames';
-import classNames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
-import { PlacesAutoComplete, DateTimePicker, UploadFlyer } from '..';
-import settings from '../../../../pages/dashboard/settings';
-import { EventProps, UserProps, UserSettingsProps } from '../../../@types/types';
-import { validStartDate, validEndDate, timeConstraints } from '../../../lib';
+import {  UserProps } from '../../../@types/types';
 import { BasicInfo } from './BasicInfo';
 import { Billing } from './Billing';
 
@@ -13,8 +9,6 @@ interface SettingsProps {
   userProp: UserProps;
 }
 export const Settings: React.FunctionComponent<SettingsProps> = ({userProp}) => {
-// sole.log(user)
-    const [user, setUser] = useState<any>(userProp);
     const [mode, setMode] = useState<any>(0);
 
     const checkForErrors = (item) => {

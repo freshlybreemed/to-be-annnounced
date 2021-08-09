@@ -1,30 +1,30 @@
-import classnames from 'classnames';
+import axios from 'axios';
 import classNames from 'classnames';
 import * as React from 'react';
 import { useState } from 'react';
-import { PlacesAutoComplete, DateTimePicker, UploadImage } from '..';
-import settings from '../../../../pages/dashboard/settings';
-import { EventProps, UserProps, UserSettingsProps } from '../../../@types/types';
-import { validStartDate, validEndDate, timeConstraints } from '../../../lib';
+import {  UploadImage } from '..';
+import { UserProps } from '../../../@types/types';
 
 interface SettingsProps {
   userProp: UserProps;
 }
 export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) => {
     const { settings } = userProp;
-    const [firstName, setFirstName] = useState<any>(settings.firstName || "");
-    const [lastName, setLastName] = useState<any>(settings.lastName || "");
-    const [phoneNumber, setPhoneNumber] = useState<any>(settings.phoneNumber || "");
-    const [instagram, setInstagram] = useState<any>(settings.socials?.instagram || "");
-    const [twitter, setTwitter] = useState<any>(settings.socials?.twitter || "");
-    const [companyName, setCompanyName] = useState<any>(settings.companyName || "");
-    const [emailAddress, setEmailAddress] = useState<any>(settings.emailAddress || "");
-    const [website, setWebsite] = useState<any>(settings.website || "");
-    const [address1, setAddress1] = useState<any>(settings.address1 || "");
-    const [address2, setAddress2] = useState<any>(settings.address2 || "");
-    const [city, setCity] = useState<any>(settings.city || "");
-    const [zip, setZip] = useState<any>(settings.zip || "");
-    const [state, setState] = useState<any>(settings.state || "");
+    const [firstName, setFirstName] = useState<string>(settings.firstName || "");
+    const [lastName, setLastName] = useState<string>(settings.lastName || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(settings.phoneNumber || "");
+    const [instagram, setInstagram] = useState<string>(settings.socials.facebook || "");
+    const [logo, setLogo] = useState<string>(settings.logo || "");
+    const [facebook, setFacebook] = useState<string>(settings.socials.instagram || "");
+    const [twitter, setTwitter] = useState<string>(settings.socials.twitter || "");
+    const [companyName, setCompanyName] = useState<string>(settings.companyName || "");
+    const [emailAddress, setEmailAddress] = useState<string>(settings.emailAddress || "");
+    const [website, setWebsite] = useState<string>(settings.website || "");
+    const [address1, setAddress1] = useState<string>(settings.address1 || "");
+    const [address2, setAddress2] = useState<string>(settings.address2 || "");
+    const [city, setCity] = useState<string>(settings.city || "");
+    const [zip, setZip] = useState<string>(settings.zip || "");
+    const [state, setState] = useState<string>(settings.state || "");
     const [image, setImage] = useState<string>(settings.logo || "");
     const [loading, setLoading] = useState<boolean>(false);
     const [settingsErrors, setSettingsErrors] = useState<any>({});
@@ -129,6 +129,15 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
         {
             fields: [
                 {
+                    label: 'Phone Number',
+                    name: 'phoneNumber',
+                    value: phoneNumber,
+                    set: setPhoneNumber,
+                    required: true,
+                    error: false,
+                    errorText: 'Please enter in a valid phoneNumber'
+                },
+                {
                     label: 'Company Name',
                     name: 'companyName',
                     value: companyName,
@@ -147,6 +156,15 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     name: 'website',
                     value: website,
                     set: setWebsite,
+                    required: false,
+                    error: false,
+                    errorText: 'Please enter in a valid website'
+                },
+                {
+                    label: 'Facebook',
+                    name: 'facebook',
+                    value: facebook,
+                    set: setFacebook,
                     required: false,
                     error: false,
                     errorText: 'Please enter in a valid website'
@@ -180,6 +198,35 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
     ]
 
     const handleSubmit = () =>{
+        setLoading(true)
+        const user: UserProps = {
+            ...userProp,
+            settings:{
+                ...userProp.settings,
+                companyName,
+                firstName,
+                lastName,
+                website,
+                city,
+                zip,
+                logo,
+                phoneNumber,
+                emailAddress,
+                state,
+                address1,
+                address2,
+                socials: {
+                    instagram,
+                    twitter,
+                    facebook
+                }
+            }
+        }
+        axios
+        .post('/api/user', {
+            data: user
+        })
+        setLoading(false)
 
     };
 
@@ -194,7 +241,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     <p>Something not ideal might be happening.</p>
                 </div>
             </div>
-            <div className="w-60-ns w-100 center">
+            <div className="w-70-ns w-100 center">
                 <div>
                     <h1 className="tl fw7 mb0 pb3">Basic Info</h1>
                     {inputConfig.map(fieldGroup=>{
@@ -202,8 +249,8 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                         if(fieldGroup.fields.length === 2) {
                             const fieldTwo = fieldGroup.fields[1]
                             return (
-                            <div className="mv3 w-100">
-                                <div className="dib w-50 pr2">
+                            <div className="md:my-3 w-100">
+                                <div className="dib md:w-2/4 w-full md:mb-0 mb-2 md:pr-2">
                                     <div className="tl ba-hover overflow-visible">
                                     <small className="db pl2 pt2 pb1 mid-gray ">
                                     {fieldOne.label} {fieldOne.required && <span className="red">*</span>}
@@ -218,7 +265,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                                     />
                                     </div>
                                 </div>
-                                <div className="dib  w-50 ">
+                                <div className="dib  md:w-2/4 w-full md:mb-0 mb-2 ">
                                     <div className="tl ba-hover overflow-visible">
                                         <small className="db pl2 pt2 pb1 mid-gray ">
                                         {fieldTwo.label} {fieldTwo.required && <span className="red">*</span>}
@@ -239,7 +286,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                             return (
                                 <>
                                     <div
-                                    className={`mt3 mb2 tl ${classNames({
+                                    className={`mb-2 tl ${classNames({
                                     'ba-hover': !settingsErrors.name,
                                     'ba-hover-error': settingsErrors.name,
                                     })}`}
@@ -266,12 +313,24 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     <hr className="o-20 " />
                 </div>
                 <div className="mv4 pv2">
-                    <h1 className="tl fw7 mb0 pb3">Event Image</h1>
                     <div className="mb5">
                         {image && <img src={image} className="db w-100" />}
                         <UploadImage setImage={setImage} />
                     </div>
                     <hr className="o-20 " />
+                </div>
+                <div className="py-20 h-screen bg-white px-2">
+                    <div className="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
+                        <div className="md:flex">
+                            <div className="w-full p-3">
+                                <div className="relative border-dotted h-48 rounded-lg border-dashed border-2 border-blue-700 bg-gray-100 flex justify-center items-center">
+                                    <div className="absolute">
+                                        <div className="flex flex-col items-center"> <i className="fa fa-folder-open fa-4x text-blue-700"></i> <span className="block text-gray-400 font-normal">Add a Profile Image</span> </div>
+                                    </div> <input type="file" className="h-full w-full opacity-0" name=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr className="o-20" />
             </div>
