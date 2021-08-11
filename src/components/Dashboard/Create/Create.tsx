@@ -5,7 +5,7 @@ import {
   PlacesAutoComplete,
   TicketCreationForm,
   DateTimePicker,
-  UploadFlyer,
+  UploadImage,
   TextEditor,
   ArtistCreationForm,
 } from '../';
@@ -429,7 +429,7 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
             <h1 className="tl fw7 mb0 pb3">Event Image</h1>
             <div className="mb5">
               <img src={image} className="db w-100" />
-              <UploadFlyer setImage={setImage} />
+              <UploadImage setImage={setImage} />
             </div>
             <hr className="o-20 " />
           </div>

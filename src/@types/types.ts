@@ -99,14 +99,66 @@ export interface EventCartProps {
   ticketName: string;
 }
 
+export interface PayoutProps {
+  _id: string;
+  eventName: string;
+  eventDate: Date;
+  sentDate: Date;
+  arrivalDate: Date;
+  netTicketSales: number;
+  payoutAmount: number;
+  grossSales: number
+  currency: string;
+  eventStatus: string;
+  payoutMethod: string;
+  payoutType: string;
+}
+export interface UserSettingsProps {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  companyName: string;
+  emailAddress: string;
+  logo:string;
+  website: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  country: string;
+  taxId?: string;
+  zip: string;
+  description: string;
+  numPastEvents: number;
+  numFutureEvents: number;
+  billing: {
+    _id: string;
+    accountType: string;
+    accountNumber: string;
+    routingNumber: string;
+    companyName: string;
+    bankName: string;
+    eventIds: string[]
+  }
+  team: {
+    email: string;
+    _id: string;
+    accessLevel: string;
+    events: [eventId: string];
+  }[],
+  socials: {
+    facebook: string;
+    twitter: string;
+    instagram: string;
+  }
+  preferences: any;
+}
 export interface UserProps {
   _id: string;
   updatedAt: Date;
   firebase: any;
-  email: string;
   dateCreated: Date;
-  info: any;
   payouts: any;
-  settings: any;
-  events: EventProps[];
+  settings: UserSettingsProps;
+  eventIds: string[];
 }

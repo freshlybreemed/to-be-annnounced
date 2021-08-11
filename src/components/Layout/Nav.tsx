@@ -138,6 +138,12 @@ export const Nav: React.FunctionComponent<NavProps> = ({ headerHeight, visible, 
               Payouts
             </a>
             <a
+              href="/dashboard/settings"
+              className="white dim no-underline fw6 f4 b db pv1 mv1"
+            >
+              Settings
+            </a>
+            <a
               href="/dashboard/create"
               className="white dim no-underline fw6 f4 b db pv1 mv1"
             >

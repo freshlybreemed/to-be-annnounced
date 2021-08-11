@@ -16,7 +16,6 @@ export default wrapAsync(async (req: NextApiRequest, db: any) => {
   switch(req.method){
     case "POST":
       const { data } = req.body;
-      console.log('data',data)
       return await updateUser(data, db);
     case "GET":
       const { organizerId } = req.query
