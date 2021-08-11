@@ -32,7 +32,7 @@
     "cleave.js": "^1.5.10",
     "custom-id": "^1.2.0",
     "firebase": "^7.14.2",
-    "html-pdf": "^2.2.0",
+    "html-pdf": "^3.0.1",
     "isomorphic-fetch": "^2.2.1",
     "jodit": "^3.7.1",
     "jodit-react": "^1.1.1",
