@@ -3,14 +3,15 @@ import { NextPage } from 'next';
 import { Dashboard } from '../../src/components/Dashboard/';
 import { Layout } from '../../src/components/Layout/';
 import SecuredPage from '../../src/hoc/securedPage';
-import { EventProps, UserProps } from '../../src/@types/types';
 import useRequest from '../../src/lib/useRequest';
 import { getCookie } from '../../src/lib';
+import { EventProps, UserProps } from '../../src/@types/types';
 
 const Page: NextPage = () => {
   const organizerId = getCookie('id_token', null);
   const {data}: any = useRequest({ url: `/api/user`, params: { organizerId } })
-  console.log('dude',data)
+  const user:UserProps = data?.user;
+  const events:EventProps[] = data?.events;
   return (
     <Layout>
       <div>
@@ -18,7 +19,8 @@ const Page: NextPage = () => {
             {data? 
           (<section className="flex-m flex-l nl3-m nr3-m nl3-l nr3-l">
             <Dashboard 
-            // user={user[0]}
+            user={user}
+            events={events}
             />
           </section>): (
           <div className="vh-50 dt center">

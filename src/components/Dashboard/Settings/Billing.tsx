@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import classnames from 'classnames';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState } from 'react';
 import { UserProps } from '../../../@types/types';
@@ -9,6 +10,8 @@ interface SettingsProps {
 }
 export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
     const { settings } = userProp;
+    const router = useRouter()
+
     const { billing } = settings;
     const [accountNumber, setAccountNumber] = useState<string>(billing.accountNumber || "");
     const [accountType, setAccountType] = useState<string>(billing.accountType || "");
@@ -62,7 +65,7 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
         },
      ];
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         setLoading(true)
         const user:UserProps = {
             ...userProp,
@@ -78,15 +81,16 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                 }
             }
         }
-        Axios.post('/api/user', { data: user
+        await Axios.post('/api/user', { data: user
         })
         .then((res)=>{
             console.log(res.data)
         })
         .catch((err)=>{
             console.log(err)
+
+            router.reload();
         })
-        setLoading(false)
     }
     return (
 
@@ -104,12 +108,17 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
                         Account Type <span className="red">*</span>
                         </small>
                         <input
-                            type="radio" id="dewey" name="drone" value="dewey"
+                            onChange={(e)=>setAccountType(e.target.value)}
+                            type="radio" id="dewey" name="drone" value={'checking'}
+                            checked={accountType === 'checking'}
                             className="pl2 pb2  input-reset  bn w-90"
                         />
                         <label for="contactChoice1">Checking</label>
                         <input
-                            type="radio" id="dewey" name="drone" value="dewey"
+                            onChange={(e)=>setAccountType(e.target.value)}
+                            type="radio" id="dewey" 
+                            checked={accountType === 'savings'}
+                            name="drone" value={'savings'}
                             className="pl2 pb2  input-reset  bn w-90"
                         />
                         <label for="contactChoice1">Savings</label>

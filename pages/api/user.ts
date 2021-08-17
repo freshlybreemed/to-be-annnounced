@@ -22,6 +22,13 @@ export default wrapAsync(async (req: NextApiRequest, db: any) => {
       const { organizerId } = req.query
       const events = await db.collection('event').find({organizerId}).toArray();
       const user = await db.collection('user').find({_id: organizerId}).toArray();
-      return { user, events };
+      return { 
+        user: {
+          ...user[0],
+          eventIds: events.map(event=> event._id)
+        }, 
+        events 
+      };
   }
+
 });

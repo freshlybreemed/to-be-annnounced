@@ -48,15 +48,6 @@ export const Settings: React.FunctionComponent<SettingsProps> = ({userProp}) => 
           >
             Billing
           </span>
-          <span
-            onClick={() => setMode(2)}
-            className={`ml3 noselect f4-ns f6 fw6-ns pb2  ${classnames({
-                active: mode === 2,
-                gray: mode !== 2,
-            })}`}
-          >
-            Preferences
-          </span>
         </div>
             {mode === 0 && <BasicInfo userProp={userProp}/>}
             {mode === 1 && <Billing userProp={userProp}/>}

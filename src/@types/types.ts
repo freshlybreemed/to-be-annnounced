@@ -120,7 +120,6 @@ export interface UserSettingsProps {
   companyName: string;
   emailAddress: string;
   logo:string;
-  website: string;
   address1: string;
   address2: string;
   city: string;
@@ -150,6 +149,7 @@ export interface UserSettingsProps {
     facebook: string;
     twitter: string;
     instagram: string;
+    website: string;
   }
   preferences: any;
 }

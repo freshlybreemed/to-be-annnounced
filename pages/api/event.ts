@@ -21,7 +21,7 @@ export default wrapAsync(async (req: NextApiRequest, db: any) => {
           createIfNotExists: true
         })
       .catch((err)=>console.log('error',err));
-    
+      await db.collection('user').updateOne({_id: event.organizerId},{$addToSet:{eventIds: event._id}});
       return await db.collection('event').updateOne(
         { slug: event.slug },
         {
