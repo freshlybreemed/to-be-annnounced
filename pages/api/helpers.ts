@@ -56,7 +56,7 @@ export const sendEmail = async (
 ) => {
   try {
     // Generate test SMTP service account from ethereal.email
-    await createDigitalTicket(order, event).then(async (tix: any) => {
+    // await createDigitalTicket(order, event).then(async (tix: any) => {
       // create reusable transporter object using the default SMTP transport
       let transporter = await nodemailer.createTransport({
         service: 'SendPulse', 
@@ -72,15 +72,15 @@ export const sendEmail = async (
         subject: emailTemplates.subject(event.name), // Subject line
         text: message, // plain text body
         html: message, // html body
-        attachments: [
-          {
-            filename: 'tickets.pdf',
-            content: tix,
-          },
-        ],
+        // attachments: [
+        //   {
+        //     filename: 'tickets.pdf',
+        //     content: tix,
+        //   },
+        // ],
       });
       return message;
-    });
+    // });
   } catch (error) {
     console.error('error email',error);
   }
