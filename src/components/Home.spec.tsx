@@ -7,7 +7,7 @@ describe("Component", () => {
   describe("Home", () => {
     it("should render without throwing an error", function () {
       expect(
-        shallow(<Home />).contains(<h3 className="fw5 f3 mb0">Tierra Whack</h3>)
+        shallow(<Home />).contains(<h3 className="fw5 f3 mt2">Tierra Whack</h3>)
       ).toEqual(true);
     });
   });
