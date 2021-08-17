@@ -1,10 +1,12 @@
+import classNames from 'classnames';
 import * as React from 'react';
-import { UserProps } from '../../@types/types';
+import { EventProps, UserProps } from '../../@types/types';
 
 interface DashboardProps {
   user: UserProps
+  events: EventProps[]
 }
-export const Dashboard: React.FunctionComponent = () => {
+export const Dashboard: React.FunctionComponent<DashboardProps> = ({user,events}) => {
   // console.log(user)
   return (
     <article className="w-100 w-75-m w-75-l ph3-m ph3-l">
@@ -43,9 +45,9 @@ export const Dashboard: React.FunctionComponent = () => {
               To-Do List
             </span>
             <div className="pt4 pb0-l pb3  ">
-              <article className="br3  w-100 pa3 ml1-ns mv1 bg-near-black noselect">
-                <div className="cf  w-100 v-mid f4-l fw6 f5-m f6 ">
-                  <span className="mr2">✓</span>
+              <article className={`br3  w-100 pa3 ml1-ns mv1 ${classNames({'bg-near-black':user.eventIds.length,'bg-dark-gray':!user.eventIds.length})} noselect`}>
+                <div className="cf w-100 v-mid f4-l fw6 f5-m f6 ">
+                  <span className="mr2">{user.eventIds.length?'✓':'+'}</span>
 
                   <span className="">Create Your First Event</span>
                 </div>
