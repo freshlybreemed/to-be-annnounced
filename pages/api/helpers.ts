@@ -2,11 +2,13 @@ const connect = require('./db');
 const cors = require('micro-cors')();
 const nodemailer = require('nodemailer');
 const pdf = require('html-pdf');
+const { tmpdir } = require('os')
 
 import { EventProps, OrderProps } from '../../src/@types/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ticketTemplate } from './ticketTemplate';
 import { emailTemplates } from './emailTemplates';
+import path from 'path';
 
 export const dev = false;
 
@@ -29,9 +31,15 @@ export const wrapAsync = (handler: any) => async (
 };
 
 export const createDigitalTicket = (order, event) => {
+
+  const config = {
+    directory: tmpdir(),
+    phantomPath: path.resolve("phantomjs-prebuilt/bin/phantomjs")
+
+  }
   return new Promise((resolve, reject) => {
     const tixTemplate = ticketTemplate.content(order, event);
-    pdf.create(tixTemplate).toStream((err, buffer: Buffer) => {
+    pdf.create(tixTemplate, config).toStream((err, buffer: Buffer) => {
       if (err) {
         console.log(err);
         reject(err);
@@ -48,7 +56,7 @@ export const sendEmail = async (
 ) => {
   try {
     // Generate test SMTP service account from ethereal.email
-    await createDigitalTicket(order, event).then(async (tix: any) => {
+    // await createDigitalTicket(order, event).then(async (tix: any) => {
       // create reusable transporter object using the default SMTP transport
       let transporter = await nodemailer.createTransport({
         service: 'SendPulse', 
@@ -64,15 +72,15 @@ export const sendEmail = async (
         subject: emailTemplates.subject(event.name), // Subject line
         text: message, // plain text body
         html: message, // html body
-        attachments: [
-          {
-            filename: 'tickets.pdf',
-            content: tix,
-          },
-        ],
+        // attachments: [
+        //   {
+        //     filename: 'tickets.pdf',
+        //     content: tix,
+        //   },
+        // ],
       });
       return message;
-    });
+    // });
   } catch (error) {
     console.error('error email',error);
   }
