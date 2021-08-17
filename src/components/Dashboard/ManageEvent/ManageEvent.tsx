@@ -30,13 +30,7 @@ export const ManageEvent: React.FunctionComponent<ManageProps> = ({
   );
 
   console.log(event);
-  // const isNS = useMediaQuery({
-  //   query: '(min-width: 30em)',
-  // });
   const isL = useMediaQuery({ query: '(min-width: 60em)' });
-  // const isM = useMediaQuery({
-  //   query: '(max-width: 60em) and (min-width: 30em)',
-  // });
 
   return (
     <div className={'w-100'}>
@@ -222,7 +216,7 @@ export const ManageEvent: React.FunctionComponent<ManageProps> = ({
             </div>
           </section>
         </div>
-        <section className="fl w-100 ">
+        <section className="fl w-100 mb4">
           <div className="bg-black-80 mb3">
             <span className="ba bw2 f3-l f4 fw6-l fw4 br-100 b--solid pv2 ph3 mv2">
               Attendee List
