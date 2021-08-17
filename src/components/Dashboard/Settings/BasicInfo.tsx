@@ -17,13 +17,13 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
     const [firstName, setFirstName] = useState<string>(settings.firstName || "");
     const [lastName, setLastName] = useState<string>(settings.lastName || "");
     const [phoneNumber, setPhoneNumber] = useState<string>(settings.phoneNumber || "");
-    const [instagram, setInstagram] = useState<string>(settings.socials.facebook || "");
+    const [instagram, setInstagram] = useState<string>(settings.socials.instagram || "");
     const [logo, setLogo] = useState<string>(settings.logo || "");
-    const [facebook, setFacebook] = useState<string>(settings.socials.instagram || "");
+    const [facebook, setFacebook] = useState<string>(settings.socials.facebook || "");
     const [twitter, setTwitter] = useState<string>(settings.socials.twitter || "");
     const [companyName, setCompanyName] = useState<string>(settings.companyName || "");
     const [emailAddress, setEmailAddress] = useState<string>(settings.emailAddress || "");
-    const [website, setWebsite] = useState<string>(settings.website || "");
+    const [website, setWebsite] = useState<string>(settings.socials.website || "");
     const [address1, setAddress1] = useState<string>(settings.address1 || "");
     const [address2, setAddress2] = useState<string>(settings.address2 || "");
     const [city, setCity] = useState<string>(settings.city || "");
@@ -55,7 +55,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     value: facebook,
                     set: setFacebook,
                     required: false,
-                    placeholder: 'facebook.com/',
+                    placeholder: '@',
                     error: false,
                     errorText: 'Please enter in a valid website'
                 }
@@ -215,7 +215,6 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                 companyName,
                 firstName,
                 lastName,
-                website,
                 city,
                 zip,
                 logo,
@@ -227,7 +226,8 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                 socials: {
                     instagram,
                     twitter,
-                    facebook
+                    facebook,
+                    website
                 }
             }
         }
@@ -243,7 +243,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
     return (
         <div className={'w-100 ph4 pt4  bg-white black'}>
             <div className="w-70-ns w-100 center">
-                <h2 className="tl fw7 mb0 pb3">Profile Photo</h2>
+                <h1 className="tl fw7 mb0 pb3">Profile Photo</h1>
                     <div className="mv4 pv2">
                         <div className="mb5">
                             {image && <img src={image} className="db w-100" />}
@@ -267,7 +267,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                         <hr className="o-20 " />
                     </div>
                 <div className="mb4 pv2">
-                    <h2 className="tl fw7 mb0 pb3">Personal Information</h2>
+                    <h1 className="tl fw7 mb0 pb3">Personal Information</h1>
                     {inputConfig.map(fieldGroup=>{
                         const fieldOne = fieldGroup.fields[0]
                         if(fieldGroup.fields.length === 2) {
@@ -350,7 +350,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     <hr className="o-20 " />
                 </div>
                 <div className="mb4 pv2">
-                    <h2 className="tl fw7 mb0 pb3">Socials</h2>
+                    <h1 className="tl fw7 mb0 pb3">Socials</h1>
                     {socialsConfig.map(fieldGroup=>{
                         const { placeholder,name,set,value,label, required, errorText } = fieldGroup.fields[0]
                         if(fieldGroup.fields.length === 2) {
