@@ -46,7 +46,7 @@ export const Nav: React.FunctionComponent<NavProps> = ({ headerHeight, visible, 
 
    
       <a href="/" className="fl f3 fw6 white no-underline">
-        Social Ticketing
+        tba
       </a>
       <div id="flyoutMenu" className={`${visibility}`} style={{ zIndex: 2 }}>
         <div className="overflow-hidden dt flex fr justify-between relative flex">
