@@ -85,10 +85,11 @@ export const Billing: React.FunctionComponent<SettingsProps> = ({userProp}) => {
         })
         .then((res)=>{
             console.log(res.data)
+            router.reload();
+
         })
         .catch((err)=>{
-            console.log(err)
-
+        console.log(err)
             router.reload();
         })
     }
