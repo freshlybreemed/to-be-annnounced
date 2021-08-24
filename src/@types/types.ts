@@ -34,6 +34,21 @@ export interface EventProps {
   updatedAt: string;
   publishDate: string;
   public: boolean;
+  offers: OfferProps[];
+}
+
+export interface OfferProps {
+  percent: boolean;
+  amount: boolean;
+  value: string;
+  quantity: number;
+  enabled: boolean;
+  code: string;
+  uses: number;
+}
+
+export interface GuestListProps {
+
 }
 
 export interface TicketProps {

@@ -15,6 +15,8 @@ interface EventCheckoutProps {
   emailAddress: any;
   setEmailAddress: any;
   handleFreeCheckout: any;
+  offerCode: any;
+  setOfferCode: any;
 }
 
 export const UserCheckoutForm: React.FunctionComponent<EventCheckoutProps> = ({
@@ -29,6 +31,8 @@ export const UserCheckoutForm: React.FunctionComponent<EventCheckoutProps> = ({
   setPhoneNumber,
   emailAddress,
   setEmailAddress,
+  offerCode,
+  setOfferCode
 }) => {
   const validateEmail = (mail: string) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
@@ -71,7 +75,7 @@ export const UserCheckoutForm: React.FunctionComponent<EventCheckoutProps> = ({
               className="bg-transparent white ba-hover pa2 mr3 w-90"
               onChange={(e) => {
                 setEmailAddress(e.currentTarget.value);
-                validateEmail(emailAddress);
+                validateEmail(e.currentTarget.value);
               }}
             />
           </div>
@@ -82,9 +86,29 @@ export const UserCheckoutForm: React.FunctionComponent<EventCheckoutProps> = ({
               value={phoneNumber}
               style={{ boxSizing: 'initial' }}
               options={{ phone: true, phoneRegionCode: 'US' }}
-              className="bg-transparent white bb pa2 mr3 w-90"
+              className="bg-transparent white ba-hover pa2 mr3 w-90"
               onChange={(e) => setPhoneNumber(e.currentTarget.value)}
             />
+          </div>
+        </div>
+        <div className="dt w-100 mt2 pt2 flex">
+          <div className="mv3 dtc w-48">
+            <small className=" db pb1">Coupon Code</small>
+            <input
+              value={offerCode}
+              className="bg-transparent white ba-hover pa2 mr3 w-90"
+              onChange={(e) => {
+                setOfferCode(e.currentTarget.value);
+                // validateOffer(e.currentTarget.value);
+              }}
+            />
+          </div>
+          <div className="mv3 dtc">
+            <span
+              className="b--white hover-bg-white hover-black ba dib noselect br-100 b--solid pa2 ph3 f5-l f6-m f6 fw6-ns ml fw6 fl"
+            >
+              Apply
+            </span>
           </div>
         </div>
         {
@@ -94,13 +118,13 @@ export const UserCheckoutForm: React.FunctionComponent<EventCheckoutProps> = ({
             </span>
             <span
               onClick={handleFreeCheckout}
-              className="b--white hover-bg-white hover-black dib noselect br-100 b--solid pa2 ph3 f3-l f4-m f5 fw5-ns ml fw6 fr"
+              className="b--white hover-bg-white hover-black dib noselect br-100 b--solid ba pa2 ph3 f3-l f4-m f5 fw5-ns ml fw6 fr"
             >
               {total > 0 ? `Pay` : `Next`}
             </span>{' '}
             <span
               onClick={() => setMode(1)}
-              className="b--white hover-bg-white hover-black dib noselect br-100 b--solid pa2 ph3 f3-l f4-m f5 fw5-ns mr2 fw6 fr"
+              className="b--white hover-bg-white hover-black dib noselect br-100 b--solid ba pa2 ph3 f3-l f4-m f5 fw5-ns mr2 fw6 fr"
             >
               Back
             </span>
