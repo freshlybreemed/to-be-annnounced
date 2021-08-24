@@ -62,7 +62,7 @@ export const Events: React.FunctionComponent<MyEventsProps> = ({ events }) => {
       .search(query)
       .then(({ hits }: any) => {
         setIsSearching(false);
-        setEventResults(hits);
+        setEventResults(hits.filter(hit=>hit.public));
         console.log(hits);
       })
       .catch((err) => {

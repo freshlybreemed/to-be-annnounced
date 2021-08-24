@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 import { EventProps, UserProps } from '../../@types/types';
+import { formatPrice, getTicketsSold } from '../../lib';
 
 interface DashboardProps {
   user: UserProps
@@ -8,6 +9,12 @@ interface DashboardProps {
 }
 export const Dashboard: React.FunctionComponent<DashboardProps> = ({user,events}) => {
   // console.log(user)
+
+  const socialsEntered = Object.values(user.settings.socials).filter(value=> value.length>2).length;
+  const payoutsSetup = Object.values(user.settings.billing).filter(value=> value.length>2).length;
+  const netRevenue: number = events.reduce((acc,event)=>(acc+event.gross),0)
+  const tixsSold: number = events.reduce((acc,event)=>(acc+getTicketsSold(event.ticketTypes)),0)
+  console.log(socialsEntered)
   return (
     <article className="w-100 w-75-m w-75-l ph3-m ph3-l">
       <header className="mb3">
@@ -22,7 +29,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = ({user,events}
                 <span className="">Net Revenue</span>
               </div>
               <div className="fl w-40 tr">
-                <span className=" ">$1273.50</span>
+                <span className=" ">{formatPrice((netRevenue / 100).toString(), true)}</span>
               </div>
             </div>
           </article>
@@ -32,7 +39,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = ({user,events}
                 <span className="">Tickets Sold</span>
               </div>
               <div className="fl w-40  tr ">
-                <span className="">1073</span>
+                <span className="">{tixsSold}</span>
               </div>
             </div>
           </article>
@@ -59,9 +66,9 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = ({user,events}
                   <span className="">Setup Payouts</span>
                 </div>
               </article>
-              <article className="br3 dim w-100 pa3 ml1-ns mv1 bg-dark-gray noselect">
+              <article className={`br3 dim w-100 pa3 ml1-ns mv1 noselect ${classNames({'bg-near-black':socialsEntered,'bg-dark-gray':!socialsEntered})} `}>
                 <a href="/dashboard/settings" className="cf  w-100 v-mid f4-l fw6 f5-m f6 ">
-                  <span className="mr2 ">+</span>
+                  <span className="mr2 ">{socialsEntered ?'✓':'+'}</span>
 
                   <span className="">Connect Social Accounts</span>
                 </a>

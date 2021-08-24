@@ -25,6 +25,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
   const [live] = useState<boolean>(new Date(event.startDate) > new Date());
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
+  const [offerCode, setOfferCode] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [emailAddress, setEmailAddress] = useState<string>('');
   const reward = useRef<any>(null);
@@ -260,7 +261,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
             })}`}
           >
             <FadeIn>
-              <span className="f3-l f4 fw6-l fw4 br-100 b--solid pv2 ph3 mv4">
+              <span className="f3-l f4 fw6-l fw4 br-100 ba b--solid pv2 ph3 mv4">
                 Checkout
               </span>
               <PaymentCheckoutForm
@@ -289,7 +290,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
               />
             </div>
             <FadeIn>
-              <span className="f3-l f4 br-100 b--solid pv2 ph3 ">
+              <span className="f3-l f4 br-100 bw2 b--solid pv2 ph3 ">
                 Confirmation
               </span>
               <div className="pv4 f3-ns f4 tc lh-title">
@@ -314,7 +315,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
         {step === 3 && (
           <div className="w-100 dib">
             <FadeIn>
-              <span className="f3-l f4 fw6-l fw4 br-100 b--solid pv2 ph3 mv4">
+              <span className="f3-l f4 fw6-l fw4 bw2 br-100 b--solid pv2 ph3 mv4">
                 Checkout
               </span>
               <div className="vh-50 dt center">
@@ -328,7 +329,7 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
         {step === 2 && (
           <div className="w-100 dib">
             <FadeIn>
-              <span className="f3-l f4 fw6-l fw4 br-100 b--solid pv2 ph3 mv4">
+              <span className="f3-l f4 fw6-l fw4 bw2 br-100 b--solid pv2 ph3 mv4">
                 Checkout
               </span>
               <UserCheckoutForm
@@ -342,6 +343,8 @@ export const Event: React.FunctionComponent<EventViewProps> = ({ event }) => {
                 emailAddress={emailAddress}
                 setEmailAddress={setEmailAddress}
                 setMode={setMode}
+                offerCode={offerCode}
+                setOfferCode={setOfferCode}
                 total={total}
               />
             </FadeIn>

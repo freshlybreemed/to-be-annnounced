@@ -8,19 +8,27 @@ import { getCookie } from '../../../src/lib';
 import { Settings } from '../../../src/components/Dashboard/Settings/Settings';
 import { EventProps, UserProps } from '../../../src/@types/types'
 
+interface Props {
+  events?: EventProps[];
+  user?: UserProps;
+}
 const Page: NextPage = () => {
   const organizerId = getCookie('id_token', null);
-  const {data}: any = useRequest({ url: `/api/user`, params: { organizerId } })
-  const user:UserProps = data?.user;
-  const events:EventProps[] = data?.events;
-  console.log('dude',data)
+  const api = useRequest({ url: `/api/user`, params: { organizerId } })
+  const data: Props = api?.data
+
+  const pageInfo = {
+    title: `Account Settings`,
+    header: 'TBA',
+    description: 'Discover lit events.',
+  };
+
   return (
-    <Layout data={data} noPadding={true}>
+    <Layout data={pageInfo} noPadding={true}>
         {data? 
           (<section className="flex-m flex-l nl3-m nr3-m nl3-l nr3-l">
             <Settings 
-
-            userProp={user}
+              userProp={data.user}
             />
           </section>): (
           <div className="vh-50 dt center">

@@ -9,7 +9,7 @@ import {
   TextEditor,
   ArtistCreationForm,
 } from '../';
-import { TicketProps, EventProps, LineUpProps } from '../../../@types/types';
+import { TicketProps, EventProps, LineUpProps, OfferProps } from '../../../@types/types';
 import {
   formatDate,
   formatPrice,
@@ -62,6 +62,7 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
     event ? event.refunds : true,
   );
   const [slug, setSlug] = useState<string>(event ? event.slug : '');
+  const [offers, setOffers] = useState<OfferProps[]>(event ? event.offers : []);
   const [currentArtist, setCurrentArtist] = useState<LineUpProps>(null);
   const [currentTicket, setCurrentTicket] = useState<TicketProps>(null);
   const [toggleTicketCreation, setToggleTicketCreation] = useState<boolean>(
@@ -166,6 +167,7 @@ export const Create: React.FunctionComponent<EditProps> = ({ event }) => {
     updatedAt: new Date().toString(),
     ticketTypes,
     refunds,
+    offers
   };
   console.log(eventDetails);
 

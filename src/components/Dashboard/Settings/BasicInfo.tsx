@@ -29,7 +29,6 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
     const [city, setCity] = useState<string>(settings.city || "");
     const [zip, setZip] = useState<string>(settings.zip || "");
     const [state, setState] = useState<string>(settings.state || "");
-    const [image, setImage] = useState<string>(settings.logo || "");
     const [loading, setLoading] = useState<boolean>(false);
     const [settingsErrors, setSettingsErrors] = useState<any>({});
 
@@ -50,7 +49,7 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
                     errorText: 'Please enter in a valid website'
                 },
                 {
-                    label: 'Facebook',
+                    label: 'Facebook Handle',
                     name: 'facebook',
                     value: facebook,
                     set: setFacebook,
@@ -245,9 +244,9 @@ export const BasicInfo: React.FunctionComponent<SettingsProps> = ({userProp}) =>
             <div className="w-70-ns w-100 center">
                 <h1 className="tl fw7 mb0 pb3">Profile Photo</h1>
                     <div className="mv4 pv2">
-                        <div className="mb5">
-                            {image && <img src={image} className="db w-100" />}
-                            <UploadImage setImage={setImage} />
+                        <div className="">
+                            {logo && <img src={logo} className="db w-50-l w-80 m-auto" />}
+                            <UploadImage setImage={setLogo} />
                                 {/* <div className="py-20 h-screen bg-white px-2"> */}
                                     {/* <div className="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
                                         <div className="md:flex">
